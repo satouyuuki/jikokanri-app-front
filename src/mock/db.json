@@ -1,0 +1,25 @@
+{
+  "targets": [
+    {
+      "total_time": "2",
+      "achieved_text": "100",
+      "created_at": "2021-03-06T01:18:46.634Z",
+      "updated_at": "2021-03-06T01:18:46.634Z",
+      "id": 1
+    },
+    {
+      "total_time": "2",
+      "achieved_text": "100",
+      "created_at": "2021-03-06T01:18:46.634Z",
+      "updated_at": "2021-03-06T01:18:46.634Z",
+      "id": 2
+    },
+    {
+      "total_time": "2",
+      "achieved_text": "100",
+      "created_at": "2021-03-06T01:18:46.634Z",
+      "updated_at": "2021-03-06T01:18:46.634Z",
+      "id": 3
+    }
+  ]
+}
