@@ -2,9 +2,13 @@ import React from 'react';
 import axios from 'axios';
 import * as ResModel from './model/resModel';
 // import { useParams } from 'react-router-dom';
+interface IProps {
+  location: any;
+  history: string[]
+}
 
-class TargetDetail extends React.Component<{}, { [value: string]: ResModel.Target }> {
-  constructor(props: string) {
+class TargetDetail extends React.Component<IProps, { [value: string]: ResModel.Target }> {
+  constructor(props: any) {
     super(props);
     this.state = { 
       target: {
@@ -15,23 +19,28 @@ class TargetDetail extends React.Component<{}, { [value: string]: ResModel.Targe
         updated_at: ''
       }
     };
+    this.handleClick = this.handleClick.bind(this);
   }
   async componentDidMount() {
-    const res = await axios.get<ResModel.Target>('http://localhost:3005/targets/');
-    const data = res.data;
+    const target = this.props.location.state.target;
     this.setState({
-      target: data
+      target: target
     });
   }
+  handleClick() {
+    this.props.history.push('/');
+  }
+
   render() {
     return (
       <div>
         <h1>達成リスト一覧</h1>
-        <p>{this.state.target.id}</p>
-        <p>{this.state.target.total_time}</p>
-        <p>{this.state.target.achieved_text}</p>
-        <p>{this.state.target.created_at}</p>
-        <p>{this.state.target.updated_at}</p>
+        <button onClick={this.handleClick}>戻る</button>
+        <p>ID: {this.state.target.id}</p>
+        <p>トータル時間: {this.state.target.total_time}</p>
+        <p>達成事項: {this.state.target.achieved_text}</p>
+        <p>作成日: {this.state.target.created_at}</p>
+        <p>更新日: {this.state.target.updated_at}</p>
       </div>
     );
   }

@@ -4,14 +4,25 @@ import * as ResModel from './model/resModel';
 // import { withRouter } from 'react-router';
 import { Link } from "react-router-dom";
 
-class TargetList extends React.Component<{}, { [value: string]: ResModel.Target[] }> {
-  constructor(props: string) {
+interface IHistory {
+  pathname: string
+  state: {
+    target: ResModel.Target
+  }
+}
+interface IProps {
+  history: IHistory[]
+}
+
+class TargetList extends React.Component<IProps, { [value: string]: ResModel.Target[] }> {
+  constructor(props: IProps) {
     super(props);
     this.state = { 
       targets: [] as ResModel.Target[]
     };
     this.createTargetList = this.createTargetList.bind(this);
     this.deleteTarget = this.deleteTarget.bind(this);
+    this.handleClick = this.handleClick.bind(this)
   }
   // goToDetail(id: number, event: any) {
   //   this.props.history.push(`/target/${id}`);
@@ -37,6 +48,17 @@ class TargetList extends React.Component<{}, { [value: string]: ResModel.Target[
     this.state.targets.splice(index, 1);
     this.setState({ items: this.state.targets });
   }
+  handleClick(id: number, event: any) {
+    const targets = this.state.targets;
+    const target = targets.find((target) => target.id === id);
+    if (target == null) {
+      throw new Error('this path must not be reached')
+    }
+    this.props.history.push({
+      pathname: '/target/' + id,
+      state: { target: target }
+    });
+  }
   createTargetList() {
     const list = [];
     const targets = this.state.targets;
@@ -44,13 +66,13 @@ class TargetList extends React.Component<{}, { [value: string]: ResModel.Target[
       const id = targets[i].id; 
       const index = parseInt(i, 10);
       list.push(
-        <tr key={i}>
-          <Link to={'/target/' + id}>
+        <tr key={i} onClick={(e) => this.handleClick(id, e)}>
+          {/* <Link to={'/target/' + id}> */}
             <td>{id}</td>
             <td>{targets[i].achieved_text}</td>
             <td>更新</td>
             <td onClick={(e) => this.deleteTarget(id, index, e)}>削除</td>
-          </Link>
+          {/* </Link> */}
         </tr>
       );
     }
