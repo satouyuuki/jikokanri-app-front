@@ -6,22 +6,25 @@ import SignUp from './SignUp';
 import Target from './Target';
 import TargetList from './TargetList';
 import TargetDetail from './TargetDetail';
+import TargetEdit from './TargetEdit';
 
 export const Path = {
   targetList: '/',
   login: '/login',
   signup: '/signup',
-  target: '/target',
-  targetDetail: '/target/:id'
+  targetCreate: '/target/create',
+  targetDetail: '/target/:id',
+  targetEdit: '/target/edit/:id'
 };
 
 const routes = (
   <Switch>
     <Route exact path={Path.targetList} component={TargetList} />
+    <Route exact path={Path.targetCreate} component={Target} />
     <Route exact path={Path.targetDetail} component={TargetDetail} />
+    <Route exact path={Path.targetEdit} component={TargetEdit} />
     <Route exact path={Path.login} component={Login} />
     <Route exact path={Path.signup} component={SignUp} />
-    <Route exact path={Path.target} component={Target} />
   </Switch>
 );
 

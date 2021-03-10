@@ -1,10 +1,12 @@
 import React from 'react';
 import axios from 'axios';
-import * as RequestModel from './model/requestModel';
+// import * as RequestModel from './model/requestModel';
 import * as ResModel from './model/resModel';
 
 interface IProps {
-  history: string[]
+  location: any;
+  history: string[];
+  match: any;
 }
 
 type InputName = 'achieved_text' | 'total_time';
@@ -12,18 +14,15 @@ type InputName = 'achieved_text' | 'total_time';
 class Target extends React.Component<IProps, { [value: string]: any }> {
   constructor(props: IProps) {
     super(props);
+    const target: any = props.location.state.target;
     this.state = { 
-      target: {
-        total_time: 0,
-        achieved_text: '',
-        created_at: new Date,
-        updated_at: new Date
-      }
+      target: target
     };
     this.handleInputChange = this.handleInputChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.goToHome = this.goToHome.bind(this);
   }
+
   /** 入力情報をstateにset */
   handleInputChange(event: any) {
     event.preventDefault();
@@ -31,31 +30,22 @@ class Target extends React.Component<IProps, { [value: string]: any }> {
     const value = event.target.type === 'checkbox' ? event.target.checked : event.target.value;
     const name: InputName = event.target.name;
     target[name] = value;
-    this.setState({ target });
+    this.setState({target});
   }
-  /** stateをreset */
-  initState() {
-    this.setState({
-      target: {
-        total_time: 0,
-        achieved_text: '',
-        created_at: new Date,
-        updated_at: new Date
-      }
-    })
-  }
+
   async handleSubmit(event: any) {
     event.preventDefault();
+    const id = this.props.match.params.id;
     const data = this.state.target;
-    const res = await axios.post<ResModel.Target>('http://localhost:3005/targets', data);
+    const res = await axios.put<ResModel.Target>(`http://localhost:3005/targets/${id}`, data);
     if (res) {
-      this.initState();
       this.goToHome();
     }
   }
   goToHome() {
     this.props.history.push('/');
   }
+
   render() {
     return (
       <div>

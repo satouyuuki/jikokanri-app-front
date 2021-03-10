@@ -8,26 +8,15 @@ interface IProps {
 }
 
 class TargetDetail extends React.Component<IProps, { [value: string]: ResModel.Target }> {
-  constructor(props: any) {
+  constructor(props: IProps) {
     super(props);
-    this.state = { 
-      target: {
-        id: 0,
-        total_time: 0,
-        achieved_text: '',
-        created_at: '',
-        updated_at: ''
-      }
-    };
-    this.handleClick = this.handleClick.bind(this);
-  }
-  async componentDidMount() {
     const target = this.props.location.state.target;
-    this.setState({
+    this.state = { 
       target: target
-    });
+    };
+    this.goToHome = this.goToHome.bind(this);
   }
-  handleClick() {
+  goToHome() {
     this.props.history.push('/');
   }
 
@@ -35,7 +24,7 @@ class TargetDetail extends React.Component<IProps, { [value: string]: ResModel.T
     return (
       <div>
         <h1>達成リスト一覧</h1>
-        <button onClick={this.handleClick}>戻る</button>
+        <button onClick={this.goToHome}>戻る</button>
         <p>ID: {this.state.target.id}</p>
         <p>トータル時間: {this.state.target.total_time}</p>
         <p>達成事項: {this.state.target.achieved_text}</p>

@@ -1,12 +1,10 @@
 import React from 'react';
 import axios from 'axios';
 import * as ResModel from './model/resModel';
-// import { withRouter } from 'react-router';
-import { Link } from "react-router-dom";
 
 interface IHistory {
   pathname: string
-  state: {
+  state?: {
     target: ResModel.Target
   }
 }
@@ -22,13 +20,10 @@ class TargetList extends React.Component<IProps, { [value: string]: ResModel.Tar
     };
     this.createTargetList = this.createTargetList.bind(this);
     this.deleteTarget = this.deleteTarget.bind(this);
-    this.handleClick = this.handleClick.bind(this)
+    this.goToDetail = this.goToDetail.bind(this)
+    this.goToCreate = this.goToCreate.bind(this)
+    this.goToEdit = this.goToEdit.bind(this)
   }
-  // goToDetail(id: number, event: any) {
-  //   this.props.history.push(`/target/${id}`);
-  //   const history = useHistory();
-  //   history.push(`/target/${id}`);
-  // }
   async componentDidMount() {
     const res = await axios.get<ResModel.Target[]>('http://localhost:3005/targets');
     const data = res.data;
@@ -43,12 +38,24 @@ class TargetList extends React.Component<IProps, { [value: string]: ResModel.Tar
    * @param event: any
    */
   async deleteTarget(id: number, index: number, event: any) {
+    event.stopPropagation();
     const res = await axios.delete(`http://localhost:3005/targets/${id}`);
-    console.info(res.data.message);
     this.state.targets.splice(index, 1);
     this.setState({ items: this.state.targets });
   }
-  handleClick(id: number, event: any) {
+  goToEdit(id: number, event: any) {
+    event.stopPropagation();
+    const targets = this.state.targets;
+    const target = targets.find((target) => target.id === id);
+    if (target == null) {
+      throw new Error('this path must not be reached')
+    }
+    this.props.history.push({
+      pathname: '/target/edit/' + id,
+      state: { target: target }
+    });
+  }
+  goToDetail(id: number, event: any) {
     const targets = this.state.targets;
     const target = targets.find((target) => target.id === id);
     if (target == null) {
@@ -59,6 +66,11 @@ class TargetList extends React.Component<IProps, { [value: string]: ResModel.Tar
       state: { target: target }
     });
   }
+  goToCreate() {
+    this.props.history.push({
+      pathname: '/target/create'
+    });
+  }
   createTargetList() {
     const list = [];
     const targets = this.state.targets;
@@ -66,13 +78,11 @@ class TargetList extends React.Component<IProps, { [value: string]: ResModel.Tar
       const id = targets[i].id; 
       const index = parseInt(i, 10);
       list.push(
-        <tr key={i} onClick={(e) => this.handleClick(id, e)}>
-          {/* <Link to={'/target/' + id}> */}
-            <td>{id}</td>
-            <td>{targets[i].achieved_text}</td>
-            <td>更新</td>
-            <td onClick={(e) => this.deleteTarget(id, index, e)}>削除</td>
-          {/* </Link> */}
+        <tr key={i} onClick={(e) => this.goToDetail(id, e)}>
+          <td>{id}</td>
+          <td>{targets[i].achieved_text}</td>
+          <td onClick={(e) => this.goToEdit(id, e)}>更新</td>
+          <td onClick={(e) => this.deleteTarget(id, index, e)}>削除</td>
         </tr>
       );
     }
@@ -82,6 +92,7 @@ class TargetList extends React.Component<IProps, { [value: string]: ResModel.Tar
     return (
       <div>
         <h1>達成リスト一覧</h1>
+        <button onClick={this.goToCreate}>新しく入力</button>
         <table>
           <thead>
             <tr>
