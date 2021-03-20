@@ -1,6 +1,7 @@
 import React from 'react';
-import axios from 'axios';
+// import axios from 'axios';
 import * as ResModel from './model/resModel';
+import { api } from './service/apiService';
 
 interface IHistory {
   pathname: string
@@ -25,7 +26,7 @@ class TargetList extends React.Component<IProps, { [value: string]: ResModel.Tar
     this.goToEdit = this.goToEdit.bind(this)
   }
   async componentDidMount() {
-    const res = await axios.get<ResModel.Target[]>('http://localhost:3005/targets');
+    const res = await api.get<ResModel.Target[]>('targets');
     const data = res.data;
     this.setState({
       targets: data
@@ -39,7 +40,7 @@ class TargetList extends React.Component<IProps, { [value: string]: ResModel.Tar
    */
   async deleteTarget(id: number, index: number, event: any) {
     event.stopPropagation();
-    const res = await axios.delete(`http://localhost:3005/targets/${id}`);
+    const res = await api.delete(`targets/${id}`);
     this.state.targets.splice(index, 1);
     this.setState({ items: this.state.targets });
   }

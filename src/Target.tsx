@@ -1,7 +1,7 @@
 import React from 'react';
-import axios from 'axios';
-import * as RequestModel from './model/requestModel';
+// import axios from 'axios';
 import * as ResModel from './model/resModel';
+import { api } from './service/apiService';
 
 interface IProps {
   history: string[]
@@ -47,7 +47,7 @@ class Target extends React.Component<IProps, { [value: string]: any }> {
   async handleSubmit(event: any) {
     event.preventDefault();
     const data = this.state.target;
-    const res = await axios.post<ResModel.Target>('http://localhost:3005/targets', data);
+    const res = await api.post<ResModel.Target>('targets', data);
     if (res) {
       this.initState();
       this.goToHome();

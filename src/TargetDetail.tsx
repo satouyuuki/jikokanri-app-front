@@ -1,5 +1,5 @@
 import React from 'react';
-import axios from 'axios';
+// import axios from 'axios';
 import * as ResModel from './model/resModel';
 // import { useParams } from 'react-router-dom';
 interface IProps {

@@ -1,7 +1,8 @@
 import React from 'react';
-import axios from 'axios';
+// import axios from 'axios';
 // import * as RequestModel from './model/requestModel';
 import * as ResModel from './model/resModel';
+import { api } from './service/apiService';
 
 interface IProps {
   location: any;
@@ -37,7 +38,7 @@ class Target extends React.Component<IProps, { [value: string]: any }> {
     event.preventDefault();
     const id = this.props.match.params.id;
     const data = this.state.target;
-    const res = await axios.put<ResModel.Target>(`http://localhost:3005/targets/${id}`, data);
+    const res = await api.put<ResModel.Target>(`targets/${id}`, data);
     if (res) {
       this.goToHome();
     }

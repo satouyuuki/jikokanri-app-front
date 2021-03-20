@@ -20,7 +20,7 @@
   },
   "scripts": {
     "start": "react-scripts start",
-    "build": "react-scripts build",
+    "build": "dotenv -e .env.production.local react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "json:server": "node_modules/.bin/json-server --watch src/mock/db.json -p 3005",
@@ -46,6 +46,7 @@
   },
   "devDependencies": {
     "@types/react-router-dom": "^5.1.7",
+    "dotenv-cli": "^4.0.0",
     "json-server": "^0.16.3"
   }
 }
