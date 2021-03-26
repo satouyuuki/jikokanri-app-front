@@ -1,15 +1,17 @@
 import React from 'react';
 import { Switch, Route } from 'react-router-dom';
-// import App from './App';
 import Login from './Login';
 import SignUp from './SignUp';
 import Target from './Target';
-import TargetList from './TargetList';
+// import TargetList from './TargetList';
 import TargetDetail from './TargetDetail';
 import TargetEdit from './TargetEdit';
 
+import Testpage from 'Pages/testpage';
+
 export const Path = {
-  targetList: '/',
+  // targetList: '/',
+  test: '/',
   login: '/login',
   signup: '/signup',
   targetCreate: '/target/create',
@@ -19,7 +21,8 @@ export const Path = {
 
 const routes = (
   <Switch>
-    <Route exact path={Path.targetList} component={TargetList} />
+    {/* <Route exact path={Path.targetList} component={TargetList} /> */}
+    <Route exact path={Path.test} component={Testpage} />
     <Route exact path={Path.targetCreate} component={Target} />
     <Route exact path={Path.targetDetail} component={TargetDetail} />
     <Route exact path={Path.targetEdit} component={TargetEdit} />
