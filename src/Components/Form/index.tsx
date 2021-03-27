@@ -1,8 +1,4 @@
 interface Props {
-  // form: {
-  //   month: number;
-  //   year: number;
-  // },
   inputMonths: (e: any) => void;
   onClick: () => Promise<void>;
 }

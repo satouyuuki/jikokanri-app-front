@@ -1,22 +1,21 @@
 import Modal from 'Components/Modal';
 import Form from 'Components/Form';
+import Table from 'Components/Table';
 import { useState, useEffect } from 'react';
 import { api } from 'service/apiService';
 import { MonthAPI } from 'model/requestModel';
-interface Months {
-  id: number;
-  year: number;
-  month: number;
-  created_at: string;
-  updated_at: string;
-}
-const Testpage: React.FC = () => {
+import { Month } from 'model/resModel'
+import { RouteComponentProps } from 'react-router-dom';
+
+interface Props extends RouteComponentProps { };
+
+const Testpage = ({ history, location, match }: Props) => {
   const [show, setShow] = useState(false);
   const [form, setForm] = useState<MonthAPI>({ year: null, month: null });
-  const [data, setData] = useState<Months[]>([]);
+  const [data, setData] = useState<Month[]>([]);
   useEffect(() => {
     const fetchData = async () => {
-      const res = await api.get<Months[]>('months');
+      const res = await api.get<Month[]>('months');
       console.log(res.data);
       setData(res.data);
     }
@@ -29,7 +28,7 @@ const Testpage: React.FC = () => {
   }
   const createMonth = async () => {
     const copyForm = Object.assign({}, form);
-    const res = await api.post<Months>('months', copyForm);
+    const res = await api.post<Month>('months', copyForm);
     const copyData = data.slice();
     setData([...copyData, res.data]);
     console.log(res.data);
@@ -49,24 +48,12 @@ const Testpage: React.FC = () => {
     <div>
       <h1>テストページ</h1>
       <button onClick={openModal}>Click</button>
-      <table>
-        <thead>
-          <tr>
-            <th>タイトル</th>
-            <th>削除</th>
-          </tr>
-        </thead>
-        <tbody>
-          {data.map(item => (
-            <tr key={item.id}>
-              <td>{item.year}年{item.month}月の目標値</td>
-              <td>
-                <button>×</button>
-              </td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
+      <Table
+        data={data}
+        history={history}
+        match={match}
+        location={location}
+      />
       <Modal
         show={show}
         onClick={openModal}
