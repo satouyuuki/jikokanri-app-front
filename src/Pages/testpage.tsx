@@ -31,7 +31,6 @@ const Testpage = ({ history, location, match }: Props) => {
     const res = await api.post<Month>('months', copyForm);
     const copyData = data.slice();
     setData([...copyData, res.data]);
-    console.log(res.data);
   }
   const inputMonths = (e: any) => {
     const copyForm = Object.assign({}, form);

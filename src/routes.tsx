@@ -9,10 +9,12 @@ import TargetEdit from './TargetEdit';
 
 import Testpage from 'Pages/testpage';
 import Testpage2 from 'Pages/testpage2';
+import Testpage3 from 'Pages/testpage3';
 
 export const Path = {
   // targetList: '/',
   test2: '/target/:id',
+  test3: '/done/:week_id',
   test: '/',
   login: '/login',
   signup: '/signup',
@@ -26,6 +28,7 @@ const routes = (
     {/* <Route exact path={Path.targetList} component={TargetList} /> */}
     <Route exact path={Path.test} component={Testpage} />
     <Route exact path={Path.test2} component={Testpage2} />
+    <Route exact path={Path.test3} component={Testpage3} />
     <Route exact path={Path.targetCreate} component={Target} />
     {/* <Route exact path={Path.targetDetail} component={TargetDetail} /> */}
     <Route exact path={Path.targetEdit} component={TargetEdit} />

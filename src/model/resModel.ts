@@ -27,3 +27,18 @@ export interface TargetList {
   target_text: string;
   target_num: number;
 }
+
+export interface DoneList {
+  target_list_id: number;
+  target_text: string;
+  target_num: number;
+  done_list_id?: number;
+  done_num?: number;
+}
+
+export interface WeekDoneList {
+  week: number;
+  month: number;
+  year: number;
+  done_lists: DoneList[];
+}

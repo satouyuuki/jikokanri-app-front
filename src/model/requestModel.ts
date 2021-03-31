@@ -24,3 +24,15 @@ export interface TargetMonthAPI {
     target_lists: TargetListAPI[]
   }
 }
+
+export interface DoneListAPI {
+  target_list_id: number;
+  done_num: number;
+}
+
+export interface WeekDoneListAPI {
+  done_data: {
+    week_id: number;
+    done_lists: DoneListAPI[];
+  }
+}

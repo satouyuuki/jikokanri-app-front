@@ -15,9 +15,11 @@ const Form = (props: Props) => {
             </Link>
             <button>削除</button>
             <ul>
-              {item.weeks.map(hoge => (
-                <li key={hoge.id}>
-                  {hoge.week}週目の達成値
+              {item.weeks.map(week => (
+                <li key={week.id}>
+                  <Link to={{ pathname: `done/${week.id}` }}>
+                    {week.week}週目の達成値                    
+                  </Link>
                 </li>
               ))}
             </ul>
