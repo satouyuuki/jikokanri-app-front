@@ -21,6 +21,7 @@ export interface TargetListAPI {
 }
 export interface TargetMonthAPI {
   target_data: {
+    month_id: number;
     target_lists: TargetListAPI[]
   }
 }

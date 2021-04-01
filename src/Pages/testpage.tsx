@@ -28,9 +28,22 @@ const Testpage = ({ history, location, match }: Props) => {
   }
   const createMonth = async () => {
     const copyForm = Object.assign({}, form);
-    const res = await api.post<Month>('months', copyForm);
-    const copyData = data.slice();
-    setData([...copyData, res.data]);
+    const res = await api.post<Month[]>('months', copyForm);
+    // const copyData = data.slice();
+    if (res) {
+      setData(res.data);      
+    }
+    // setData([...copyData, res.data]);
+  }
+  const deleteMonth = async (monthId: number) => {
+    
+    const res = await api.delete<Month[]>(`months/${monthId}`);
+    console.log('delete', res);
+    // const copyData = data.slice();
+    if (res) {
+      setData(res.data);
+    }
+    // setData([...copyData, res.data]);
   }
   const inputMonths = (e: any) => {
     const copyForm = Object.assign({}, form);
@@ -49,6 +62,7 @@ const Testpage = ({ history, location, match }: Props) => {
       <button onClick={openModal}>Click</button>
       <Table
         data={data}
+        onClick={deleteMonth}
         history={history}
         match={match}
         location={location}

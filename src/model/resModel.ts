@@ -9,16 +9,16 @@ export interface Week {
   id: number;
   week: number;
   month_id: number;
-  created_at: string;
-  updated_at: string;
+  // created_at: string;
+  // updated_at: string;
 }
 
 export interface Month {
   id: number;
   year: number;
   month: number;
-  created_at: string;
-  updated_at: string;
+  // created_at: string;
+  // updated_at: string;
   weeks: Week[];
 }
 

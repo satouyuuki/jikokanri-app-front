@@ -2,7 +2,8 @@ import { Month } from 'model/resModel';
 import { Link, RouteComponentProps } from 'react-router-dom';
 
 interface Props extends RouteComponentProps{
-  data: Month[]
+  data: Month[];
+  onClick: (monthId: number) => void;
 }
 const Form = (props: Props) => {
   return (
@@ -13,7 +14,7 @@ const Form = (props: Props) => {
             <Link to={{ pathname: `target/${item.id}` }}>
               {item.year}年{item.month}月の目標値
             </Link>
-            <button>削除</button>
+            <button onClick={() => props.onClick(item.id)}>削除</button>
             <ul>
               {item.weeks.map(week => (
                 <li key={week.id}>

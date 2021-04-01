@@ -3,7 +3,7 @@ import "index.css";
 interface Props {
   show: boolean;
   title: string;
-  onClick: (e: any) => void;
+  onClick: (e?: any) => void;
   children?: React.ReactNode;
 };
 
