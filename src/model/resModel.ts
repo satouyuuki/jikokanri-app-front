@@ -26,6 +26,7 @@ export interface TargetList {
   id: number;
   target_text: string;
   target_num: number;
+  done_num_sum: number;
 }
 
 export interface DoneList {
