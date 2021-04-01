@@ -10,6 +10,7 @@ import TargetEdit from './TargetEdit';
 import Testpage from 'Pages/testpage';
 import Testpage2 from 'Pages/testpage2';
 import Testpage3 from 'Pages/testpage3';
+import Navbar from 'Components/Navbar';
 
 export const Path = {
   // targetList: '/',
@@ -24,17 +25,20 @@ export const Path = {
 };
 
 const routes = (
-  <Switch>
-    {/* <Route exact path={Path.targetList} component={TargetList} /> */}
-    <Route exact path={Path.test} component={Testpage} />
-    <Route exact path={Path.test2} component={Testpage2} />
-    <Route exact path={Path.test3} component={Testpage3} />
-    <Route exact path={Path.targetCreate} component={Target} />
-    {/* <Route exact path={Path.targetDetail} component={TargetDetail} /> */}
-    <Route exact path={Path.targetEdit} component={TargetEdit} />
-    <Route exact path={Path.login} component={Login} />
-    <Route exact path={Path.signup} component={SignUp} />
-  </Switch>
+  <div>
+    <Navbar/>
+    <Switch>
+      {/* <Route exact path={Path.targetList} component={TargetList} /> */}
+      <Route exact path={Path.test} component={Testpage} />
+      <Route exact path={Path.test2} component={Testpage2} />
+      <Route exact path={Path.test3} component={Testpage3} />
+      <Route exact path={Path.targetCreate} component={Target} />
+      {/* <Route exact path={Path.targetDetail} component={TargetDetail} /> */}
+      <Route exact path={Path.targetEdit} component={TargetEdit} />
+      <Route exact path={Path.login} component={Login} />
+      <Route exact path={Path.signup} component={SignUp} />
+    </Switch>
+  </div>
 );
 
 export default routes;
