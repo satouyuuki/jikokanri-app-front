@@ -1,5 +1,5 @@
 interface Props {
-  inputMonths: (e: any) => void;
+  inputMonths: (e: React.ChangeEvent<HTMLInputElement>) => void;
   onClick: () => Promise<void>;
 }
 const Form = ({ inputMonths, onClick }: Props) => {

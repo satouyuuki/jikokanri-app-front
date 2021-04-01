@@ -17,37 +17,38 @@ const Testpage = ({ history, location, match }: Props) => {
     const fetchData = async () => {
       const res = await api.get<Month[]>('months');
       console.log(res.data);
+      if (res.data.length === 0) return;
       setData(res.data);
     }
     fetchData();
   }, []);
 
-  const openModal = (e: any) => {
-    e.stopPropagation();
-    setShow(prevshow => !prevshow);
+  const openModal = (e?: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+    e?.stopPropagation();
+    setShow(true);
+  }
+  const closeModal = (e?: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+    e?.stopPropagation();
+    setShow(false);
   }
   const createMonth = async () => {
     const copyForm = Object.assign({}, form);
     const res = await api.post<Month[]>('months', copyForm);
-    // const copyData = data.slice();
     if (res) {
       setData(res.data);      
+      closeModal();
     }
-    // setData([...copyData, res.data]);
   }
   const deleteMonth = async (monthId: number) => {
-    
     const res = await api.delete<Month[]>(`months/${monthId}`);
-    console.log('delete', res);
-    // const copyData = data.slice();
     if (res) {
       setData(res.data);
+      closeModal();
     }
-    // setData([...copyData, res.data]);
   }
-  const inputMonths = (e: any) => {
+  const inputMonths = (e: React.ChangeEvent<HTMLInputElement>) => {
     const copyForm = Object.assign({}, form);
-    const data = e.target as HTMLInputElement;
+    const data = e.target;
     if (data.id === 'year') {
       copyForm.year = parseInt(data.value, 10);
     }
@@ -58,8 +59,8 @@ const Testpage = ({ history, location, match }: Props) => {
   }
   return (
     <div>
-      <h1>テストページ</h1>
-      <button onClick={openModal}>Click</button>
+      <h1>年月一覧</h1>
+      <button onClick={openModal}>目標設定の年月を作成</button>
       <Table
         data={data}
         onClick={deleteMonth}
@@ -69,7 +70,7 @@ const Testpage = ({ history, location, match }: Props) => {
       />
       <Modal
         show={show}
-        onClick={openModal}
+        onClick={closeModal}
         title="達成月を作成"
       >
         <Form

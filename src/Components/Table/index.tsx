@@ -5,28 +5,27 @@ interface Props extends RouteComponentProps{
   data: Month[];
   onClick: (monthId: number) => void;
 }
-const Form = (props: Props) => {
+const Form = ({data, onClick}: Props) => {
   return (
     <div>
-      <ul>
-        {props.data.map(item => (
-          <li key={item.id}>
-            <Link to={{ pathname: `target/${item.id}` }}>
-              {item.year}年{item.month}月の目標値
+      {data.map(month => (
+        <details key={month.id}>
+          <summary>{month.year}年{month.month}月</summary>
+          <p>
+            <Link to={{ pathname: `target/${month.id}` }}>
+              {month.year}年{month.month}月の目標値
             </Link>
-            <button onClick={() => props.onClick(item.id)}>削除</button>
-            <ul>
-              {item.weeks.map(week => (
-                <li key={week.id}>
-                  <Link to={{ pathname: `done/${week.id}` }}>
-                    {week.week}週目の達成値                    
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </li>
-        ))}
-      </ul>
+          </p>
+          {month.weeks.map(week => (
+            <p key={week.id}>
+              <Link to={{ pathname: `done/${week.id}` }}>
+                {week.week}週目の達成値
+              </Link>
+            </p>
+          ))}
+          <button onClick={() => onClick(month.id)}>削除</button>
+        </details>
+      ))}
     </div>
   )
 };
