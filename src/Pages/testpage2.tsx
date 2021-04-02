@@ -43,10 +43,7 @@ const Testpage2 = ({ history, location, match }: Props) => {
   }
   /** 初期値設定 */
   const showTargetList = async () => {
-    const data = {
-      month_id: id
-    }
-    const res = await api.get<TargetList[]>("target_lists", { params: data });
+    const res = await api.get<TargetList[]>(`target_lists/${id}`);
     if (res.data.length === 0) return;
     setData(res.data);
   }
