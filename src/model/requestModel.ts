@@ -37,3 +37,8 @@ export interface WeekDoneListAPI {
     done_lists: DoneListAPI[];
   }
 }
+
+export interface UserAPI {
+  username: string;
+  password: string;
+}

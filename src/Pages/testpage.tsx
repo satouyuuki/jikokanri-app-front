@@ -16,7 +16,6 @@ const Testpage = ({ history, location, match }: Props) => {
   useEffect(() => {
     const fetchData = async () => {
       const res = await api.get<Month[]>('months');
-      console.log(res.data);
       if (res.data.length === 0) return;
       setData(res.data);
     }

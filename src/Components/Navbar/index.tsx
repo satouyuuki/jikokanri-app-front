@@ -1,12 +1,28 @@
-import { Link } from 'react-router-dom';
+import { Link, RouteComponentProps, withRouter } from 'react-router-dom';
+import { Cookie } from 'service/cookieService';
 
-interface Props {};
+interface Props extends RouteComponentProps {
+  cookie: Cookie;
+};
 
-const Navbar = ({}: Props) => {
+const Navbar = ({ cookie, history }: Props) => {
+  const handleClick = (e: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => {
+    e.preventDefault();
+    cookie.token = '';
+    alert('ログアウトしました');
+    history.push('/');
+  }
   return (
-    <nav>
-      <Link to={{pathname: "/"}}>ホーム</Link>
-    </nav>
+    <>
+      {cookie.isLoggedIn
+        ? <nav>
+          <Link to={{ pathname: "/" }}>ホーム</Link>
+          <a href="#" onClick={handleClick}>ログアウト</a>
+        </nav>
+
+        : <div>未ログイン</div>
+      }
+    </>
   )
 };
-export default Navbar;
+export default withRouter(Navbar);

@@ -14,14 +14,10 @@ const Month = {
 } as const;
 export type MonthType = typeof Month[keyof typeof Month];
 
-// export type MonthKey = 'month' | 'year';
-// const Year = (() => {
-//   const array = [];
-//   const end = 2099;
-//   for (let i = 2021; i < end; i++) {
-//     array.push(i);
-//   }
-//   const str = array.join('|');
-//   return str;
-// })();
-// export type YearType = typeof Year;
+interface ErrorMessage {
+  [key: string]: string;
+}
+export const MESSAGE: ErrorMessage = {
+  "0001": 'ログインに失敗しました'
+} as const;
+export type MESSAGE = typeof MESSAGE[keyof typeof MESSAGE];
