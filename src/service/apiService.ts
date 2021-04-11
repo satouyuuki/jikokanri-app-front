@@ -10,7 +10,7 @@ export const api = axios.create({
 });
 
 api.interceptors.request.use((config: AxiosRequestConfig) => {
-  const token = new Cookie().token;
+  const token = new Cookie().value?.access_token;
   config.headers['Authorization'] = token;
   return config;
 });
@@ -25,11 +25,9 @@ api.interceptors.response.use(
   },
   async (err: AxiosError<ErrorResponse>) => {
     if (err.response) {
-      // const errCode = err.response.data.error
-      // const message = MESSAGE[errCode]
-      const message = err.response.data.message;
-      alert(message);
+      const error = err.response.data.error
+      alert(error);
     }
-    return err.response;
+    return false;
   }
 );

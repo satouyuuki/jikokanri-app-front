@@ -8,7 +8,7 @@ interface Props extends RouteComponentProps {
 const Navbar = ({ cookie, history }: Props) => {
   const handleClick = (e: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => {
     e.preventDefault();
-    cookie.token = '';
+    cookie.value = null;
     alert('ログアウトしました');
     history.push('/');
   }
@@ -16,8 +16,19 @@ const Navbar = ({ cookie, history }: Props) => {
     <>
       {cookie.isLoggedIn
         ? <nav>
-          <Link to={{ pathname: "/" }}>ホーム</Link>
-          <a href="#" onClick={handleClick}>ログアウト</a>
+            <ul>
+              <li>
+              <Link to={{ pathname: "/" }}>ホーム</Link>
+            </li>
+            <li>
+              <a href="#">{ cookie.value?.email}</a>
+              <ul>
+                <li>
+                  <a href="#" onClick={handleClick}>ログアウト</a>
+                </li>
+              </ul>
+            </li>
+            </ul>
         </nav>
 
         : <div>未ログイン</div>

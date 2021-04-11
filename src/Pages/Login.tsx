@@ -25,9 +25,9 @@ const Login = ({ cookie, history }: Props) => {
       password: form.password
     }
     const res = await api.post<any>('auth/sign_in', data);
-    if (res.data.access_token) {
+    if (res.data.access_token && res.data.email) {
       alert('ログイン成功しました');
-      cookie.token = res.data.access_token;
+      cookie.value = res.data;
       history.push('/');
     }
   }
