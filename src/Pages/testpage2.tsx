@@ -4,14 +4,17 @@ import TargetListTable from 'Components/Table/targetList';
 import { useState, useEffect } from 'react';
 import { api } from 'service/apiService';
 import { TargetListAPI, TargetMonthAPI } from 'model/requestModel';
-import { TargetList } from 'model/resModel'
+import { TargetListData } from 'model/resModel'
 import { RouteComponentProps, useParams } from 'react-router-dom';
 
 interface Props extends RouteComponentProps { };
 
 const Testpage2 = ({ history, location, match }: Props) => {
   const { id } = useParams<{ id: string }>();
-  const [data, setData] = useState<TargetList[]>([]);
+  const [data, setData] = useState<TargetListData>({
+    month: 0,
+    target_lists: []
+  });
   const [show, setShow] = useState(false);
   const [form, setForm] = useState<TargetListAPI[]>([{
     target_text: '',
@@ -28,7 +31,7 @@ const Testpage2 = ({ history, location, match }: Props) => {
   }
   /** 編集モーダルに切り替える */
   const changeEditModal = async () => {
-    const copyData = data.slice();
+    const copyData = data.target_lists.slice();
     setForm(copyData);
     toggleModal();
   }
@@ -43,9 +46,11 @@ const Testpage2 = ({ history, location, match }: Props) => {
   }
   /** 初期値設定 */
   const showTargetList = async () => {
-    const res = await api.get<TargetList[]>(`target_lists/${id}`);
-    if (res.data.length === 0) return;
-    setData(res.data);
+    const res = await api.get<TargetListData>(`target_lists/${id}`);
+    console.log('target_list show api', res)
+    if (res) {
+      setData(res.data);
+    }
   }
   /** 新規目標リスト作成 */
   const createMonth = async () => {
@@ -56,15 +61,18 @@ const Testpage2 = ({ history, location, match }: Props) => {
         target_lists: copyForm
       }
     }
-    const res = await api.post<TargetList[]>(`target_lists`, formData);
-    if (res.data.length === 0) return;
-    setData(res.data);
-    toggleModal();
+    const res = await api.post<TargetListData>(`target_lists`, formData);
+    if (res) {
+      setData(res.data);
+      toggleModal();
+    }
   }
   /** 選択した目標リストを削除する */
   const deleteTargetList = async (id: number) => {
-    const res = await api.delete<TargetList[]>(`target_lists/${id}`);
-    setData(res.data);
+    const res = await api.delete<TargetListData>(`target_lists/${id}`);
+    if (res) {
+      setData(res.data);
+    }
   }
   /** フォーム部品を追加する */
   const onAddForm = () => {
@@ -97,11 +105,11 @@ const Testpage2 = ({ history, location, match }: Props) => {
 
   return (
     <div>
-      <h1>月の目標リスト {id}</h1>
+      <h1>{ data.month }月の目標リスト</h1>
       <button onClick={changeCreateModal}>新規登録</button>
       <button onClick={changeEditModal}>編集</button>
       <TargetListTable
-        data={data}
+        data={data.target_lists}
         onClick={deleteTargetList}
       />
       <Modal

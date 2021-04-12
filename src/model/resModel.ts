@@ -19,9 +19,13 @@ export interface Month {
   month: number;
   // created_at: string;
   // updated_at: string;
+  target_lists_flag: boolean;
   weeks: Week[];
 }
-
+export interface TargetListData {
+  month: number;
+  target_lists: TargetList[];
+}
 export interface TargetList {
   id: number;
   target_text: string;

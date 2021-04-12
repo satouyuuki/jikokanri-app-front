@@ -32,8 +32,8 @@ const MonthTargetForm = ({ form, inputMonths, createMonth, onAddForm, onDeleteFo
           <button onClick={() => onDeleteForm(index)}>削除</button>
         </div>
       ))}
-      <button onClick={onAddForm}>追加</button>
-      <button onClick={createMonth}>送信</button>
+      <button onClick={createMonth}>作成</button>
+      <span onClick={onAddForm}>リスト追加</span>
     </div>
   )
 };

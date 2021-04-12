@@ -19,8 +19,9 @@ const Testpage3 = ({ history, location, match }: Props) => {
   useEffect(() => {
     const fetchData = async () => {
       const res = await api.get<WeekDoneList>(`done_lists/${week_id}`);
-      if (Object.keys(res.data).length === 0) return;
-      setData(res.data);
+      if (res) {
+        setData(res.data);
+      }
     }
     fetchData();
   }, []);
@@ -35,7 +36,9 @@ const Testpage3 = ({ history, location, match }: Props) => {
   /** 選択した達成リストを削除する */
   const onDeleteDone = async (id?: number) => {
     const res = await api.delete<WeekDoneList>(`done_lists/${id}`);
-    setData(res.data);
+    if (res) {
+      setData(res.data);
+    }
   }
   const createMonth = async () => {
     const copyForm = form.slice();
@@ -46,7 +49,7 @@ const Testpage3 = ({ history, location, match }: Props) => {
       }
     }
     const res = await api.post<WeekDoneList>("done_lists", formData);
-    if (Object.keys(res.data).length > 0) {
+    if (res) {
       setData(res.data);
       endWriteMode();
     }
@@ -87,25 +90,21 @@ const Testpage3 = ({ history, location, match }: Props) => {
             <p> 
               数値目標: {item.target_num}
             </p>
-            <p>
-              達成値:
-              {!writeMode &&
-                  item.done_list_id
-                    ? <div>
-                        {item.done_num}
-                        <button onClick={() => onDeleteDone(item.done_list_id)}>削除</button>
-                      </div>
-                    : '入力されてません'
-              }
-              {writeMode &&
+            <div>
+              {writeMode ?
                 <input
                   type="number"
                   name="done_num"
+                  placeholder="達成値"
                   defaultValue={item.done_num}
                   onChange={(e) => inputMonths(e, item.target_list_id)}
-                />
+                /> :
+                <div>
+                  <p>達成値: {item.done_num}</p>
+                  <button onClick={() => onDeleteDone(item.done_list_id)}>削除</button>
+                </div>
               }
-            </p>
+            </div>
           </li>
         ))}
       </ul>
