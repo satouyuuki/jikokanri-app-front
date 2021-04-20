@@ -20,6 +20,7 @@ const Testpage2 = ({ history, location, match }: Props) => {
     target_text: '',
     target_num: 0,
   }]);
+  const [editMode, setEditMode] = useState<boolean>(false);
   /** ライフサイクル: 画面描画時 */
   useEffect(() => {
     showTargetList();
@@ -30,10 +31,11 @@ const Testpage2 = ({ history, location, match }: Props) => {
     setShow(prevshow => !prevshow);
   }
   /** 編集モーダルに切り替える */
-  const changeEditModal = async () => {
-    const copyData = data.target_lists.slice();
-    setForm(copyData);
-    toggleModal();
+  const changeEditModal = () => {
+    setEditMode(prevEdit => !prevEdit);
+    // const copyData = data.target_lists.slice();
+    // setForm(copyData);
+    // toggleModal();
   }
   /** 新規作成モーダルに切り替える */
   const changeCreateModal = async () => {
@@ -102,6 +104,49 @@ const Testpage2 = ({ history, location, match }: Props) => {
     }
     setForm([...copyForm]);
   }
+  const hoge = (e: React.ChangeEvent<HTMLInputElement>, targetListId: number) => {
+    // request配列をクローン
+    const copyForm = form.slice().filter(form => !!form.id);
+    // オブジェクト作成
+    const obj = {} as TargetListAPI;
+    obj.id = targetListId;
+    // name属性を取得
+    const target = e.target;
+    if (target.name === 'targetText') {
+      obj.target_text = target.value;
+    }
+    if (target.name === 'targetText') {
+      obj.target_num = parseInt(target.value, 10);
+    }
+    // 配列が空だったら
+    if (copyForm.length === 0) {
+      copyForm.push(obj);
+      setForm(copyForm);
+    } else {
+      const hoge = copyForm.map(form => {
+        if (form.id === obj.id) {
+          form = obj;
+        }
+        return form;
+      })
+      setForm(hoge);
+    }
+    // 
+    // const copyData = data.target_lists.slice();
+    // const targetData = data.target_lists.map(data => {
+    //   console.log(data.id === id);
+    //   if (data.id === id) {
+    //     console.log(e.target.id);
+    //     if (e.target.id === 'targetText') {
+    //       data.target_text = e.target.value;
+    //     }
+    //     if (e.target.id === 'targetNum') {
+    //       data.target_num = parseInt(e.target.value, 10);
+    //     }
+    //   }
+    //   return data;
+    // });
+  }
 
   return (
     <div>
@@ -109,8 +154,10 @@ const Testpage2 = ({ history, location, match }: Props) => {
       <button onClick={changeCreateModal}>新規登録</button>
       <button onClick={changeEditModal}>編集</button>
       <TargetListTable
+        editMode={editMode}
         data={data.target_lists}
         onClick={deleteTargetList}
+        handleHoge={hoge}
       />
       <Modal
         show={show}
